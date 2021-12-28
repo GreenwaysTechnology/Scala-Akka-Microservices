@@ -1,0 +1,576 @@
+
+Scala - Programming Language 
+
+Akka - Reactive Programming
+
+Play   -Web Framework
+
+Lagom - Microservice Framework
+..............................................................................................
+					 Scala
+.............................................................................................
+
+What is Scala?
+
+ Scala is one of the Programming language for JVM.
+
+Scala is Java?
+  Yes.
+
+What is Java ?
+  Technology.
+
+Technology means which solves Practical Problem.
+
+What is the Problem java was trying to solve?
+
+Application Portablity : If any app is built on native platform , cant be reused on different platform.
+
+SUN Created JAVA Technology.
+
+How java achived Portablity?
+  Runtime - JRE - JVM
+
+JVM is simple c program. JVM is virtual OS .
+.............................................................................................
+				in order to write apps on jvm
+
+The programming language was needed -  java programming language.
+
+What JPL?
+
+ Java was created from idea of C++,SmallTalk.....
+
+Java was created based on Object Oriented Programming style.
+..............................................................................................
+				 JCP -Java Community Process
+..............................................................................................
+
+The Java Community Process, established in 1998, is a formalized mechanism that allows interested parties to develop standard technical specifications for Java technology
+
+JAVA editions:
+
+1.JSE - Core java Language
+2.JEE - For server side computing - Servlet,JSP,WebServices..... 
+3.JME - For device computing
+
+
+JSR - Java Specification Request
+
+JVM languages:
+.............
+
+JSR 241  introduced new spec for jvm languages.
+
+According to this spec, any body can create new pl for jvm.
+
+Multi language spec. Other than java programming language, we can create new language.
+
+Groovy - is first reference implementation based on JSR 241.
+Scala
+Kotlin
+Clojure
+.............................................................................................
+				 
+Java is Object oriented Programming language. - Before java 8
+
+Java is Object oriented , functional Style Programming language.
+
+
+Style of programming languages:
+
+Today so many styles
+
+1.object oriented programming.
+2.Producural style
+3.Functional programming
+4.Event driven programming
+5.Reactive Programming
+etc...
+
+..............................................................................................
+
+Object Oriented Programming Principles:
+.......................................
+
+
+1.Abstraction
+  You take necessary things from the object.
+  class - is tool to capture object characteristics(state,behaviour,identity)
+2.Encapsulation
+  Hide and unhide  
+  To limit code sharing across the application.
+3.Hierarchy
+   organization
+  -has-a - compostion
+  -IS-A - inheritance
+4.Typing
+  Type System
+    - Strong Typing / Static Typing
+    - Weak Typing/Dynamic Typing
+   Polymorphism
+     static poly
+     dynamic poly
+5.Modularity
+   How to organize code
+   packages
+----------------------
+6.Concurrency
+   Threading
+7.Persistency
+   saving main memory data into disk and sending via network.
+   seriazliation
+
+If any language implements the first 5 principles, those languages are called object oriented
+languages.
+.............................................................................................
+			Scala  =  OOP + Functional Programming
+.............................................................................................
+
+What is functional Programming?
+
+The functional programming is the application of mathmetics-Lamda Calculs
+
+Scala Language fundamentals
+Scala Object Oriented Programming
+Scala Functional Programming and implementations
+............................................................................................
+				Scala  - Scalable language
+
+Scalable means expanding features.
+
+Features:
+1.new Data types -  we can create our own data types.
+2.You can create readable new control constructs
+
+Why scala?
+
+1.scala comptible
+2.scala is more concise
+
+Employee.java
+class Employee {
+   private int id;
+   private String name;
+   public Employee(int id,String name){ 
+    this.id = id;
+    this.name =name;
+  }
+  //setters and getters
+
+}
+
+Employee.scala
+class Employee(id:Int,name:String)
+
+Scala is static typed language
+
+ int a; - static type in java
+
+ var | val a = 10
+
+Type inference : Type of variable is fixed based on values assigned to a variable
+   var a =10 
+   val b =20;
+
+Explicit type
+
+ var | val a:Int =20
+
+.............................................................................................
+					Scala Setup
+..............................................................................................
+
+Many programming languages who provide REPL -  Read Evulate Print Loop
+
+scala
+Welcome to Scala 2.13.7 (Java HotSpot(TM) 64-Bit Server VM, Java 11.0.11).
+Type in expressions for evaluation. Or try :help.
+
+scala> "hello"
+val res0: String = hello
+
+scala> 10
+val res1: Int = 10
+
+scala> 20
+val res2: Int = 20
+
+scala> 30 + 90
+val res3: Int = 120
+
+scala> res3
+val res4: Int = 120
+
+scala> res4 *100
+val res5: Int = 12000
+
+scala> val msg="Hello Scala"
+val msg: String = Hello Scala
+
+scala> val message:String ="hello"
+val message: String = hello
+
+scala> val message:String ="hello"
+val message: String = hello
+
+scala> val name:java.lang.String="subramanian"
+val name: String = subramanian
+
+scala> println(name)
+subramanian
+
+scala> println("name "+name)
+name subramanian
+
+scala> println("Your name is $name" )
+Your name is $name
+
+scala> println("Your name is ${name}" )
+Your name is ${name}
+
+scala> name = "Ram"
+            ^
+       error: reassignment to val
+
+scala> var age =18
+var age: Int = 18
+
+scala> println(age)
+18
+
+scala> age=100
+// mutated age
+
+scala> age=80
+// mutated age
+
+scala> println(age)
+80
+
+scala>
+.............................................................................................
+
+Scala tools:
+
+1.scala compiler
+ scalac 
+2.scala runtime
+  scala 
+
+Scala scripting.
+
+FileName.scala
+
+Editors: 
+ any text editor
+ Ecplise
+ Intellij idea.
+
+Build tool for scala
+
+sbt-Simple Build Tool
+............................................................................................
+
+How to create scala projects?
+
+you can use sbt in commandline.
+
+ sbt
+
+
+you can use intellij idea
+
+Code style: normal
+
+HelloWorld.scala
+
+object HelloWorld {
+  //main method
+  def main(args: Array[String]): Unit = {
+    println("Hello")
+  }
+}
+
+Code Style : dsl style
+@main def hello: Unit = 
+  println("Hello world!")
+  println(msg)
+
+def msg = "I was compiled by Scala 3. :)"
+..............................................................................................
+					Scala - Language Fundamentals
+.............................................................................................
+
+Variables
+Types
+Literals
+
+
+Variables in Scala;
+
+variables are declared in two styles
+
+val -  immutable - constants, variables cant be reinitalized
+ 
+var -  mutable  -  variables can reinitalized
+
+package com.mycom
+
+object VariablesDeclaration {
+  def main(args: Array[String]): Unit = {
+    val a = 10;
+    println("A is " + a)
+    //a = 100;
+    var b = 100
+    println("B is " + b)
+    b = 900;
+    println("B is " + b)
+
+  }
+}
+..............................................................................................
+
+Type System: Since scala is strongly typed , type of variable should be given.
+
+
+int a =10; static typed syntax : java
+
+Explicit type declaration
+var a:Int  =10;
+
+Type inference: Type of variable is fixed based on values
+var a =100;
+
+Types are objects in scala(Wrapper objects)
+
+package com.mycom
+
+object VariablesDeclaration {
+  def main(args: Array[String]): Unit = {
+    val a = 10;
+    println("A is " + a)
+    //a = 100;
+    var b = 100
+    println("B is " + b)
+    b = 900;
+    println("B is " + b)
+
+    //Explicit type
+    var c: Int = 90;
+    println("C " + c);
+
+  }
+}
+
+Built in data types:
+
+Byte,Int,Long,Short,Double,Float,String
+
+var i =10; ==> default is Int.
+
+var j=10.4 ===>default is double
+
+//java like suffix
+
+var x=10L  => long
+
+var y=10.5F => float
+
+Large Numbers
+
+var a = BigInt(222223232323)
+
+var str="Hello" =>String
+var c='c' =>Char
+
+.............................................................................................
+
+String has some special feature:
+
+1.Interpolation : for string concatation 
+
+package com.mycom
+
+object StringsInScala {
+  def main(args: Array[String]): Unit = {
+    //strings:
+    var firstName = "Subramanian";
+    var lastName = "Murugan";
+    println(s"Name : $firstName $lastName")
+  }
+}
+
+here s is function for interpolating
+
+
+2.Multi Line Strings
+
+  //multi line strings
+    var htmlDoc =
+      """
+        |<html>
+        |<body>
+        |<h1>Hello</h1>
+        |</body>
+        |</html>
+        |""".stripMargin
+    println (htmlDoc)
+...........................................................................................
+Control Structures:
+..................
+
+if..else
+for loop and expressions
+match expression - switch...case
+while loop
+try...catch
+
+     var a =100;
+     if a <0 then
+      println("negative")
+    else if a==0 then
+       println ("zero")
+     else
+        println ("postive")
+
+
+Scala code is full of expressions nor statement.
+
+Expressions will give/return some value 
+Statement will not return value.
+
+expression
+
+var res = 10 + 10(expression)
+
+var res  = someFunc();
+
+var res = new SomeClass();
+
+
+package com.mycom
+
+object ControlStructures {
+  def main(args: Array[String]): Unit = {
+    //control structure // Statement driven
+    var a = 100;
+    var b = 300;
+    if (a < b) {
+      println("good value")
+    } else {
+      println("bad value")
+    }
+    //control structure // expression driven
+    val res = if (a > b) "A is greater" else "B is greater";
+    println(res);
+
+  }
+}
+........
+Loops,switch..case
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+   
+
+ 
