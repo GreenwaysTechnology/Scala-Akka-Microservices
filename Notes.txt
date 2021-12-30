@@ -467,8 +467,554 @@ object ControlStructures {
 
   }
 }
-........
+..............................................................................................
 Loops,switch..case
+..................
+
+For loops
+ traditional for loop
+ foreach method
+ for expressions -based on eop 
+
+package com.mycom
+
+object Loops {
+  def main(args: Array[String]): Unit = {
+    //Collection
+    //Seq
+    val nums = Seq(1, 2, 3)
+    for (n <- nums) println(n)
+    //List
+    val skills = List("Scala", "Java", "Microservices");
+    //for loop
+    for (skill <- skills) println(skill)
+    //for each method
+    skills.foreach(skill => println(skill))
+    skills.foreach(println)
+    //Maps
+    val reviews = Map(
+      "The Spider Man : No way Home" -> 4,
+      "The Matrix Final Chapter " -> 3.5
+    )
+    for ((movie, rating) <- reviews) println(s"Movie => $movie Rating=> $rating")
+
+  }
+}
+...........................................................................................
+				Switch...case -Java , Match Expressions-Scala
+..........................................................................................
+
+Simple Match:
+
+Statement based match
+
+ val month = 3;
+    //match expression
+    month match {
+      case 1 => println("Jan")
+      case 2 => println("Feb")
+      case 3 => println("Mar")
+      case 4 => println("Apr")
+      case _ => println("Invalid Month")
+    }
+
+Expression based match
+ val monthName = month match {
+      case 1 => "Jan"
+      case 2 => "Feb"
+      case 3 => "Mar"
+      case 4 => "Apr"
+      case _ => "Invalid Month"
+    }
+    println(monthName)
+.........................................................................................
+
+Range matching /List of values Matching
+
+   val num = 6
+    val evenOrOdd = num match {
+      case 1 | 3 | 5 | 7 | 9 => "odd"
+      case 2 | 4 | 6 | 8 | 10 => "even"
+      case _ => "No match Found"
+    }
+    println(evenOrOdd)
+
+    println(evenOrOdd)
+    //Range Operator : DSL Code
+    num match {
+      case a if 0 to 9 contains(a) => println("0 to 9=>" + a)
+    }
+
+Advanced match expression to be discussed later.
+.............................................................................................
+				Object oriented Programming
+............................................................................................
+
+if you want to create object, we need class.
+
+class types
+1.normal class -  we can create instances
+2.object class - SingleTon, which is holding static methods
+
+package com.mycom.oop
+
+class Greeting {
+  //instance variables
+  var name = "Subramanian";
+  var message = "Hello";
+}
+
+This is normal class
+package com.mycom.oop
+
+/**
+ * public class GreetingMain {
+ * public static void main(String args[]){
+ *
+ * }
+ * }
+ * GreetingMain.main()
+ */
+//Single ton means , can have static methods , in scala there is no static keyword
+object GreetingMain {
+  def main(args: Array[String]): Unit = {
+    var greeting = new Greeting();
+    println(s"${greeting.name} ${greeting.message}")
+    greeting = new Greeting(); //constructor call
+    greeting.message = "Hai";
+    greeting.name = "Ram";
+    println(s"${greeting.name} ${greeting.message}")
+    //No need of() incase of default constructors
+    greeting = new Greeting //constructor call
+    println(s"${greeting.name} ${greeting.message}")
+  }
+}
+.............................................................................................
+
+Methods:
+ methods are part of classes(instance)
+
+package com.mycom.oop
+
+class Calculator {
+  //add methods
+  def addV1(): Int = {
+    println("Add method")
+    return 10 + 10;
+  }
+
+  //methods with args
+  def addV2(a: Int, b: Int): Int = {
+    return a + b;
+  }
+
+  //default args
+  def addV3(a: Int = 0, b: Int = 0): Int = {
+    return a + b;
+  }
+
+  //if method having single ling of body ; we can remove {} and return statement
+  def addV4(a: Int = 2333, b: Int = 99999): Int = a + b
+
+  //multi line body without return statement
+  def addV5(a: Int = 2333, b: Int = 99999): Int = {
+    println("addV5")
+    println("This is nice syntax")
+    a + b // last line of code is implied as return value
+  }
+
+
+}
+
+package com.mycom.oop
+
+object ObjectMethods {
+  def main(args: Array[String]): Unit = {
+    val calculator = new Calculator;
+    println(calculator.addV1())
+    println(calculator.addV2(12,30))
+    println(calculator.addV3())
+    println(calculator.addV3(2,90))
+    println(calculator.addV3(12))
+    println(calculator.addV4())
+    println(calculator.addV5())
+
+  }
+}
+........
+File names and class Names:
+
+in Scala, you can name
+.scala files anything you want, no matter what Scala classes or code you
+put in them. In general in the case of non-scripts, however, it is recommended
+style to name files after the classes they contain as is done in Java.
+
+foo.scala
+
+class Bar {} //valid
+
+but recommended
+
+Bar.scala
+class Bar {}
+
+..........................................................................................
+constructors:
+.............
+Types of constructors
+1.primary constructors
+2.axilary constructors
+
+
+1.primary constructors.
+
+1.Constructor parameters are declared as part of class Declaration
+
+  class Employee(var id:Int,var name:String) {
+
+
+
+  }
+2.class body becomes constructors body , so you can call methods directly.
+
+  class Employee(var id:Int,var name:String) {
+     println("you can call")
+     doStuff()
+  }
+..........................................
+
+package com.mycom.oop
+
+class Employee(var id: Int = 0, var firstName: String = "", var lastName: String = "") {
+  override def toString: String = s"${id} $firstName $lastName"
+}
+
+//if class has no methods only data : data class //no necessary of {}
+class Stock(var symbol: String = "google", var price: BigDecimal = 100)
+
+//if class has a  releation ship
+class Address(
+               var street: String = "street",
+               var city: String = "city",
+               var state: String = "state"
+             )
+
+class Customer(var id: Int = 0, var name: String = "name", var address: Address = new Address)
+
+//class constructors are used to have expression
+
+class Guest(var firstName: String = "firstName") {
+  //body of the constructor
+  println("Guest is being initialized")
+  //variables
+  var from: String = "From city"
+
+  //methods
+  def printCity(): Unit = println(this.firstName, this.from)
+
+  printCity()
+}
+
+///Auxiliary class constructors
+
+/**
+ * 1.it is special method started with this keyword
+ * 2.those constructors must be called by other constructors
+ */
+class Building(var totalSize: Int = 0, var buildingType: String = "") {
+  //one arg aux constructor
+  def this(totalSize: Int) = {
+    this(totalSize, "Home")
+    println("Single Arg constructor is called")
+  }
+
+}
+
+package com.mycom.oop
+
+object ConstructorsMain {
+  def main(args: Array[String]): Unit = {
+    var employee = new Employee; //default constructor
+    println(employee.toString)
+    employee = new Employee(1, "subramanian", "Murugan"); //default constructor
+    println(employee.toString)
+
+    employee = new Employee(3); //default constructor
+    println(employee.toString)
+    //named parameters : help to pass values in any order
+    employee = new Employee(lastName = "Murugan")
+    println(employee.toString)
+
+    //instance of Stock
+    val stock = new Stock()
+    println(stock.price, stock.symbol)
+
+    var customer = new Customer;
+    println(customer.id, customer.name, customer.address.city)
+    customer = new Customer(id = 1, name = "Subramanian", address = new Address(city = "Coimbatore"))
+    println(customer.id, customer.name, customer.address.city)
+
+    //constructor blocks
+    var guest = new Guest
+    var building = new Building
+    building = new Building(1800)
+  }
+}
+.............................................................................................
+				  Traits  - Like interfaces in Java
+..............................................................................................
+
+Traits:
+
+Traits are a fundamental unit of code reuse in Scala. A trait encapsulates
+method and field definitions, which can then be reused by mixing them into
+classes. Unlike class inheritance, in which each class must inherit from just
+one superclass, a class can mix in any number of traits.
+
+A trait definition looks just like a class definition except that it uses the keyword
+trait.
+
+Types:
+1.class
+2.Interface - traits = abstract classes  + interfaces
+3.Enum
+4.abstract class
+
+Hierchary: 
+ Has-a -Compostion.
+ IS-A - inheritance
+
+Inheritance:
+=>Code Reuse
+=>To avoid code duplication.
+
+Across the application or Across the hierachy.
+
+
+package com.mycom.oo.traits
+
+//trait
+trait Flyable {
+  //abstract methods and non abstract methods
+  def fly(): String;
+}
+
+class AirPlane extends Flyable {
+  override def fly(): String = "Airplan is flying"
+}
+
+object TraitsDemo {
+  def main(args: Array[String]): Unit = {
+    // var airPlane:Flyable = new AirPlane;
+    var airPlane = new AirPlane;
+    println(airPlane.fly);
+  }
+}
+...............................
+Mutliple Traits:
+package com.mycom.oo.traits
+
+//trait
+trait Flyable {
+  //abstract methods and non abstract methods
+  def fly(): String;
+}
+
+trait Landable {
+  def land(): String;
+}
+
+trait TakeOff {
+  def takeOff(): String;
+}
+
+class AirPlane extends Flyable with Landable with TakeOff {
+  override def fly(): String = "Airplan is flying"
+
+  override def land(): String = "Landing Process begins";
+
+  override def takeOff(): String = "Take Off Process begins"
+}
+
+object TraitsDemo {
+  def main(args: Array[String]): Unit = {
+    // var airPlane:Flyable = new AirPlane;
+    var airPlane = new AirPlane;
+    println(airPlane.fly, airPlane.land, airPlane.takeOff);
+  }
+}
+............................................................................................
+
+Trait and concrete Methods:
+trait Pet {
+  def speak = println("wo wo wo") // concrete implementation of a speak method
+
+  def eat(): String // abstract
+}
+
+class Dog extends Pet {
+  override def eat(): String = "Dog eats meat and bones"
+}
+
+def main(args: Array[String]): Unit = {
+    // var airPlane:Flyable = new AirPlane;
+    var airPlane = new AirPlane;
+    println(airPlane.fly, airPlane.land, airPlane.takeOff);
+    ///
+    var pet = new Dog;
+    pet.speak
+    println(pet.eat)
+
+}
+............................................................................................
+	   Anonomous Classes: without Implementation class we can write logic
+		Runtime Inheritance: BindingMixing traits in on the fly
+
+Use case 1:without any class
+
+
+    var myCat = new Pet {
+      override def eat(): String = "Cat is drinking Milk"
+    }
+    myCat.speak
+    println(myCat.eat)
+
+Use case 2: with class but binding happens dynamically.
+
+
+trait Pet {
+  def speak = println("wo wo wo") // concrete implementation of a speak method
+
+  def eat(): String // abstract
+}
+
+def cat = new Cat("puppy") with Pet {
+      override def eat(): String = "Cat Drinks milk"
+    }
+    cat.speak
+    println(cat.eat)
+
+......
+// this won’t compile
+trait Animal(name: String)
+
+
+Abstract classes:
+ Like java classes.
+
+Therefore, you need to use an abstract class whenever a base behavior must have constructor parameters:
+
+abstract class Pet(name: String) {
+  def speak: Unit = println(s"My name is $name")
+  //non abstracts
+  def takeCare(): Unit = {
+    println("Take Care Pets")
+  }
+}
+
+class Dog(name: String) extends Pet(name)
+
+object AbstractClassesDemo {
+  def main(args: Array[String]): Unit = {
+    var dog = new Dog("Fido")
+    dog.speak
+    dog.takeCare
+  }
+}
+
+}
+..........................................................................................
+
+package com.mycom.oop.advancedmatch
+
+trait Person {
+  def name: String
+}
+
+case class Student(name: String, year: Int) extends Person
+
+case class Teacher(name: String, specialty: String) extends Person
+
+class CasePrinter {
+  def getPrintableString(p: Person): String = p match {
+    case Student(name, year) =>
+      s"$name is a student in Year $year."
+    case Teacher(name, whatTheyTeach) =>
+      s"$name teaches $whatTheyTeach."
+  }
+}
+
+object AdvancedMatchClass {
+  def main(args: Array[String]): Unit = {
+    val casePrinter = new CasePrinter
+    println(casePrinter.getPrintableString(new Student("Ram", 3)))
+    println(casePrinter.getPrintableString(new Teacher("Subramanian", "Scala")))
+
+  }
+}
+package com.mycom.oop.advancedmatch
+
+trait Person {
+  def name: String
+}
+
+case class Student(name: String, year: Int) extends Person
+
+case class Teacher(name: String, specialty: String) extends Person
+
+class CasePrinter {
+  def getPrintableString(p: Person): String = p match {
+    case Student(name, year) =>
+      s"$name is a student in Year $year."
+    case Teacher(name, whatTheyTeach) =>
+      s"$name teaches $whatTheyTeach."
+  }
+}
+
+//case class Methods
+case class IPLTeam(name: String, lastWorldSeriesWin: Int)
+
+object AdvancedMatchClass {
+  def main(args: Array[String]): Unit = {
+    val casePrinter = new CasePrinter
+    println(casePrinter.getPrintableString(new Student("Ram", 3)))
+    println(casePrinter.getPrintableString(new Teacher("Subramanian", "Scala")))
+
+    val cubs1908 = IPLTeam("CSK", 2021)
+    println(cubs1908.name, cubs1908.lastWorldSeriesWin)
+
+    val cubs2016 = cubs1908.copy(lastWorldSeriesWin = 2017)
+    
+    println(cubs2016.name, cubs2016.lastWorldSeriesWin)
+
+  }
+}
+..............................................................................................
+
+Built in Usefull Traits:
+
+Null, null, Nil, Nothing, None, and Unit in Scala
+....................................................
+
+Null– Its a Trait.
+null– Its an instance of Null- Similar to Java null.
+
+Nil– Represents an emptry List of anything of zero length. Its not that it refers to nothing but it refers to List which has no contents.
+
+Nothing is a Trait. Its a subtype of everything. But not superclass of anything. There are no instances of Nothing.
+
+None– Used to represent a sensible return value. Just to avoid null pointer exception. Option has exactly 2 subclasses- Some and None. None signifies no result from the method.
+
+Unit– Type of method that doesn’t return a value of anys sort.
+...............................................................................................				Functional Programming
+..............................................................................................
+				
+
+
+
+
+
+
 
 
 
