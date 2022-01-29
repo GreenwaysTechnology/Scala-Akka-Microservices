@@ -1,0 +1,183 @@
+						Akka with Scala
+.............................................................................................
+
+What is Akka?
+ Akka is toolkit or framework for building distributed(microservices), event driven,scalable,resilent apps on JVM.
+
+Distrubuted Applications characterictics:
+
+1.Applications are built using object oriented models where we create more objects,those objects interacts each other in order to share "messages/data" among them.
+
+Object interaction patterns:
+............................
+
+1.within one single runtime - JVM
+   Objects can be interacted via method calls
+
+class Order {
+ 
+   Payment payment;
+
+   pay(){
+       
+       Object paymentStatus = payment.processPayment(order)
+   }
+
+} 
+class Payment {
+   processPayment(order){
+     return paymentStatus;
+   }
+}   
+Object interaction
+Payment payment = new Payment()
+Order order = new Order(payment)
+order.pay(orderinfo);
+
+
+2.Across the multiple runtime
+   may be in one machine - multi process
+   may be in across machines
+
+RPI: Remote Procedure Invocation
+ =>Networks
+    =>Protocals -  TCP/UDP/HTTP/HTTPS/PROPERTIY
+    =>LOCATION Identification - DNS
+    =>Fault Management
+    =>Data Transfer and its format
+
+Concurrency and Object Interactions:
+....................................
+Systems like java is multi threaded.
+Order system may run in a thread
+
+Web,Multi Threaded:
+
+ In Web env every user request is treated as single thread.
+  100req = 100 threads
+  Thread Per Request Model
+
+
+Blocking and Non Blocking : Synchrous and Asynchrous:
+......................................................
+
+If object is invoking method on thread on another object, thread is blocked until another object returns data : Blocking -Here cpu resources and memory resources are heavily used and wasted.
+
+if object is invoking method on  thread on anonther object, thread is not blocked,rather which uses "event driven programming" - Non Blocking Arch.
+
+
+Non Blocking Arch:
+
+1.using events at language level/Framework/lib -  nodejs,akka,vertx....
+
+2.using MOM(Message Orinted Middlewares) - RabbitMQ,kafka...
+..............................................................................................
+
+Design patterns behind Akka Framework:
+
+Akka is a toolkit for building highly concurrent, distributed, and resilient "message-driven applications" for Java and Scala
+
+=>Actor Model Design Pattern
+=>Streams Design Pattern
+ 
+
+What is Actor Model and Actors?
+The actor model in computer science is a mathematical model of concurrent computation that treats actor as the universal primitive of concurrent computation. In response to a message it receives, an actor can: make local decisions, create more actors, send more messages, and determine how to respond to the next message received. Actors may modify their own private state, but can only affect each other indirectly through messaging (removing the need for lock-based synchronization)
+
+In Actor Model every object(java /Scala) is Actor.
+
+In java we can call objects in different Names
+
+class Employee {}
+
+POJO -  Plain Old Java Object
+
+@Entity
+class Employee {}
+
+Employee -  Entity - Entity itself is object but has some extra power.
+            Power: entities are persistable inside database.
+
+class HomeController extends javax.Servlet.HttpServlet {
+
+}
+HomeController - Servlet - Servlet itself is object but it has some extra Power
+                 Power: can talk to HTTP protocal.
+
+@Repository
+@Service
+@RestController
+etc....
+
+class OrderActor  extends Actor {
+
+}
+Here OrderActor itself is Object but it has some extra power.
+
+Actor Powers:
+.............
+
+=>Actor can create other Actors
+=>Actor can send message to other actors (Actors never call methods on Another Methods)
+=>Actor can make local decisions
+=>Actor can Process Messages 
+=>Actor can store multiple messages using a datastructure(Queue)-MailBox
+=>Actor may modify their own private state
+
+.............................................................................................
+How we can implement actor model?
+ Akka is reference implementation from Lightbend is the company behind Akka, a distributed application architecture that enables developers to easily build real-time, data-centric applications.
+
+Akka provides collection of libs(jars) to implement end to end actor model for building realtime distributed data driven applications.
+
+1.Actor library
+2.Remoting
+3.Cluster
+4.Cluster Sharding
+5.Cluster Singleton
+6.Persistence
+7.Projections
+8.Distributed Data
+9.Streams
+10.Alpakka
+11.HTTP
+12.gRPC
+Other Akka modules
+...............................................................................................
+Akka Project Setup:
+Follw this link:
+
+https://developer.lightbend.com/guides/akka-quickstart-scala/?_ga=2.180303392.521072433.1643425309-665213842.1639582760
+
+
+
+HelloWorld:
+package com.example
+
+import akka.actor.{Actor, ActorSystem, Props}
+
+class HelloWorldActor extends Actor {
+  //this method is called when ever a message arrives to this actor.
+  override def receive: Receive = {
+    case msg: String => println(s"$msg")
+    case _ => println("Unknown message") // Default case
+  }
+}
+object HelloWorldActorMain extends App {
+  //Creating Actor System - Actor Engine
+  var actorSystem = ActorSystem("ActorSystem");
+  //Create Actor
+  var actor= actorSystem.actorOf(Props[HelloWorldActor],"HelloWorldAkka")
+  //send message
+  actor ! "Hello Akka"
+}
+
+
+
+
+
+
+
+
+
+
