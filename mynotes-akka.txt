@@ -1,0 +1,216 @@
+Actor:
+
+An actor is an entity which communicates to other actor by message passing. Actor has it's own state and behavior. As in object-oriented programming everything is an object same like everything is an actor in actor-based system.
+In other words, we can say that an actor is an object that encapsulates state and behavior.
+
+
+
+Messages are sent to an Actor through one of the following methods.
+
+! means “fire-and-forget”, e.g. send a message asynchronously and return immediately. Also known as tell.
+
+? sends a message asynchronously and returns a Future representing a possible reply. Also known as ask.
+
+Getting Started : Creating actor,sending message to actor
+
+...
+
+package com.example
+
+import akka.actor.Actor
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+
+class HelloActor extends Actor {
+  override def receive = {
+    case msg: String => println(s"$msg")
+    case _ => println("Unknown message") // Default case
+  }
+}
+
+object HelloWorld extends App {
+  //Creating Actor System - Actor Engine
+  var actorSystem = ActorSystem("ActorSystem");
+  //Create Actor
+  var actor= actorSystem.actorOf(Props[HelloActor],"HelloWorldAkka")
+  //send message
+  actor ! "Hello Akka"
+  actor ! true
+}
+................
+Akka Props:
+.........
+
+Props is a configuration class which is used to specify options while creating an actor. It is immutable, so it is thread-safe and shareable.
+
+You can implement Props by importing akka.actor.Props package.
+
+Props is a configuration class which is used to specify options while creating an actor. It is immutable, so it is thread-safe and shareable.
+
+
+You can create actor by passing a Props instance into the actorOf() factory method which is available in ActorSystem and ActorContext. The actorOf() method returns an instance of ActorRef. This instance is immutable and has one to one relationship with the actor it represents. ActorRef is also serializable so that you can serialize it.
+
+package com.example
+
+import akka.actor.{Actor, ActorSystem, Props};
+
+class PropsExample extends Actor {
+  def receive= {
+    case msg:String => println(msg+" "+self.path.name + " " +self.path.address)
+  }
+}
+object PropsMain{
+  def main(args: Array[String]) {
+    var actorSystem = ActorSystem("ActorSystem");
+    var actor = actorSystem.actorOf(Props[PropsExample],"PropExample");
+    actor ! "Hello from"
+  }
+}
+
+
+Props Creation in various ways:
+package com.example
+
+import akka.actor._
+
+class CreatingActor extends Actor {
+  def receive = {
+    case msg: String => println(msg + " " + self.path.name) // Receiving message and name of actor
+  }
+}
+
+object CreatingActorExample {
+  def main(args: Array[String]) {
+    var actorSystem = ActorSystem("ActorSystem");
+    var props1 = Props[CreatingActor]; // creating pops here
+    var actor1 = actorSystem.actorOf(props1); // passing pops reference
+    var actor2 = actorSystem.actorOf(Props[CreatingActor], "Actor2") // Passing pops and explicitly giving name to the actor
+    var actor3 = actorSystem.actorOf(Props(classOf[CreatingActor]), "Actor3") // Passing actor class by using classOf
+    var actor4 = actorSystem.actorOf(Props[CreatingActor], name = "Actor4") // Name passing to variable
+    var actor5 = actorSystem.actorOf(Props(new CreatingActor()), name = "Actor5") // This approach is not recommended
+    actor1 ! "Hello"
+    actor2 ! "Hello"
+    actor3 ! "Hello"
+    actor4 ! "Hello"
+    actor5 ! "Hello"
+  }
+}
+........................................................
+
+Child Actors:
+....
+
+Akka provides facility to create child actor. You can create child actor by using implicit context reference. ActorSystem is used to create root-level or top-level actor. Akka provides you context so that you can create child actor also.
+
+package com.example
+
+import akka.actor._
+
+class RootActor extends Actor {
+  def receive = {
+    case msg: String => println(msg + " " + self.path.name);
+      var childActor = context.actorOf(Props[Child], "Child");
+      childActor ! "Hello"
+  }
+}
+
+class Child extends Actor {
+  def receive = {
+    case msg: String => println(msg + " " + self.path.name);
+  }
+}
+
+object ChildActorExample {
+  def main(args: Array[String]) {
+    var actorSystem = ActorSystem();
+    var actor = actorSystem.actorOf(Props[RootActor], "RootActor");
+    actor ! "Hello"
+  }
+}
+................
+Akka Actor life cycle
+Akka provides life cycle methods for Actor. There are following methods to which you can override and provide specific implementation accordingly.
+
+Akka Actor life cycle methods
+preStart()
+postStop()
+preRestart(reason: Throwable, message: Option[Any])
+postRestart(reason: Throwable)
+
+
+package com.example
+
+import akka.actor._
+
+class LifeCyleMethodsExample extends Actor {
+  def receive = {
+    case msg: String => println(msg + " " + self.path.name); // Getting name of Actor
+  }
+
+  override def preStart() { // overriding preStart method
+    println("preStart method is called");
+  }
+
+  override def postStop() { // Overriding postStop method
+    println("postStop method is called");
+  }
+}
+
+object ActorsLifeCycles {
+  def main(args: Array[String]) {
+    val actorSystem = ActorSystem("ActorSystem");
+    val actor = actorSystem.actorOf(Props[LifeCyleMethodsExample], "RootActor");
+    actor ! "Hello"
+    println("stopping Actor");
+    actorSystem.stop(actor);      // Stopping Actor by passing actor reference.
+  }
+}
+............................................................................................
+                            Akka Actor Communications
+............................................................................................
+
+Akka Actor Send Messages
+Akka provides two predefined methods tell() and ask() for message exchange. An actor can send messages to another Actor through these following methods.
+
+1) Akka Actor tell() Method
+It is used to send a message asynchronously. It does not wait and block thread for a message. It works on "fire-forget" approach. You can also use ! (bang) exclamation mark to send message. This is the preferred way of sending messages. It gives the best concurrency and scalability characteristics.
+
+If this method is invoked from within an Actor, the sending actor reference will be implicitly passed along with the message.
+
+
+package com.example
+
+import akka.actor.{Actor, ActorSystem, Props};
+
+class ActorExample extends Actor {
+  def receive = {
+    case message: String => println("Message received: " + message + " from - " + self.path.name);
+      println("sender:" + sender()); // returns ActorRef
+  }
+}
+
+object ActorTellMethod {
+  def main(args: Array[String]) {
+    val actorSystem = ActorSystem("ActorSystem");
+    val actor = actorSystem.actorOf(Props[ActorExample], "RootActor");
+    actor ! "Hello" // Sending message by using !
+    actor.tell("Hello", null); // Sending message by using tell() method
+    // Sender is not passed here.
+  }
+}
+
+If this method is invoked from an instance that is not an Actor, the sender will be deadLetters actor reference by default.
+
+[2022-01-23 21:48:22,930] [INFO] [akka.event.slf4j.Slf4jLogger] [ActorSystem-akka.actor.default-dispatcher-4] [] - Slf4jLogger started
+Message received: Hello from - RootActor
+sender:Actor[akka://ActorSystem/deadLetters]
+Message received: Hello from - RootActor
+sender:Actor[akka://ActorSystem/deadLetters]
+
+
+
+
+
+
+
+

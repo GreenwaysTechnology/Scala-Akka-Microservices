@@ -1677,19 +1677,175 @@ object NoNullPointerV5 {
   }
 }
 ..............................................................................................
+DSL:
 
-Generics
-Collections
+Programming languages are classified into
 
-Akka
+1.GPL
+  General Purpose Programming language.
+  Java,C++,C#,C
+  ->Language created for any type of apps using imperative programming model
+2.DSL
+  Domain Specific language
+   Lanaguage only one domain.
+  HTML.
+    Declarative -  More readable looks like english statement
+   eg:
+     deposit 100 in account no 3944  -  program.
+
+ How to create dsls - using functional and object oriented programming.
+
+ DSLs are programms usefull for stack holders, dev ops eng,biz anay,testers.
+
+Programming languages such as groovy.
+
+package com.mycom.fp
+
+object Response {
+  def response() = "Message Processed"
+}
+
+object Behaviours {
+  //method : higher order function
+  def receive(onMessage: () => Unit) = {
+    //calling function
+    onMessage();
+    //traditional method call
+    //Response.response();
+    //dsl like method call
+    Response.response
+  }
+}
 
 
+object LambdaAsArg {
+  def main(args: Array[String]): Unit = {
+    //lnline lambda expression
+    Behaviours.receive({ () =>
+      println("Hello")
+    });
+    //simple short cut : DSL Syntax
+    var res = Behaviours.receive { () =>
+      println("Hello DSL Syntax")
+    }
+    println(res);
+  }
+}
+.............................................................................................
+
+How to omit main method?
+object LambdaAsArg extends App {
+  Behaviours.receive({ () =>
+    println("Hello")
+  });
+  //simple short cut : DSL Syntax
+  var res = Behaviours.receive { () =>
+    println("Hello DSL Syntax")
+  }
+  println(res);
+}
+.............................................................................................
+				Pure and Impure functions and Immutablity
+.............................................................................................
+
+What is pure function?
+
+=>The function's out put depends on only its input
+  if function receives input, the function should return the same
+
+eg 
+    function myfun(var a){
+        return a;
+    }
+Side Effects  && Impure functions
+ 
+  if function tries to mutate(update/change) the function args or function local variable
+  or object instance variable.
+  if function tries to do some io operations -  like writing into logs,dbs,fs...
+  
+  if function does the same , it is said to be impure functions, and also side effects
+
+=>What if the function gets input, needs to mutate its input parameter,but that function needs to be pure.
+  Solution: Immutablity
+
+impure version:
+   function updateProfile(var profile,var city){
+       
+       //side effects
+     profile.city = city;
+     return profile
+       
+   }
+
+pure with immutability
+  function updateProfile(var profile,var city){
+     //we have to return new object every time when ever we modify the state.
+     return  profile.clone(city:city)
+       
+   }
+eg in java 
+ Strings 
+
+  String str = "hello";
+  String newStr = str.trim()
+
+Scala provides lot of pure functions.
+
+scala.Math package
+ abs
+ ceil
+ max
+ min
+Scala stringss
+ isEmpty
+ length
+ substring
+
+Collections are also avaiable in pure function version. => Immutable Collections
+
+..............................................................................................	
+				 Data Structure in Scala - Collections
+..............................................................................................
+
+Static/Fixed
+  Arrays
+Dynamic
+  List
+  Set
+  Map
+
+Scala collections are immutable and mutable .
 
 
+A Mutable collection can be updated or extended in place.Which causes side effects
+Immutable collection  the original memory address never change- rather it creates new copy of object every time.
 
+scala.collection.mutable 
+scala.collection.immutable
 
+package com.mycom.collections
 
+object CollectionsDemo extends App {
+  //Lists are ordered collection based on index
+  //generics : generics are containers which provide type safety for container objects like list,set
+  var list: List[Int] = List(1, 2, 3);
+  list.foreach(f => {
+    println(f)
+  })
+  //short cuts
+  list.foreach(f => println(f))
+  //method reference
+  list.foreach(println)
+  //set is unordered collections, which avoid duplicates
+  var names: Set[String] = Set("a", "b", "c", "d", "a", "e");
+  names.foreach(println);
+  //Map is key-value paried
+  var colorCodes: Map[String, String] = Map("red" -> "#F002323", "blue" -> "#B000")
+  println(colorCodes.keys)
+  println(colorCodes.values)
 
+}
+.............................................................................................
 
 
 

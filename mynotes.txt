@@ -1,0 +1,1059 @@
+My notes
+How to compile scala files and run ?
+
+Simple scala file
+
+hai.scala
+
+package com.mycom
+
+object hai {
+    def main(args:Array[String]):Unit = {
+        println ("hai")
+    }
+}
+compiling
+
+E:\session\incedoinc\mydemos>scalac -d classes src/hai.scala
+
+Running
+E:\session\incedoinc\mydemos>scala -cp classes com.mycom.hai
+
+.........................................................................................
+
+scripts:
+A script is just a sequence of statements in a file that will be executed sequentially
+
+myscript.scala
+
+println ("Hello Scala Script")
+
+scala myscript.scala
+
+
+E:\session\incedoinc\mydemos>scala myscript.scala
+Hello Scala Script
+
+Loops:
+
+var i = 0
+while (i < args.length) {
+println(args(i))
+i += 1
+}
+
+
+scala myloop.scala scala is great
+scala
+is
+great
+
+Lambda style : declarative
+
+args.foreach(arg => println(arg))
+
+In this code, you call the foreach method on args, and pass in a function. In
+this case, you’re passing in a function literal that takes one parameter named
+arg. The body of the function is println(arg).
+
+args.foreach(arg=>println(arg))
+args.foreach(println)
+.........................................................................................
+
+Match Expression:looks like java switch statement
+
+
+Using a match expression as the body of a method
+object MatchExpression {
+  def main(args: Array[String]): Unit = {
+    var i = 1
+    i match {
+      case 1 => println("January")
+      case 2 => println("February")
+      case 3 => println("March")
+      case 4 => println("April")
+      case 5 => println("May")
+      case 6 => println("June")
+      case 7 => println("July")
+      case 8 => println("August")
+      case 9 => println("September")
+      case 10 => println("October")
+      case 11 => println("November")
+      case 12 => println("December")
+      // catch the default with a variable so you can print it
+      case _ => println("Invalid month")
+    }
+    //expression syntax:
+    val monthName = i match {
+      case 1 => "January"
+      case 2 => "February"
+      case 3 => "March"
+      case 4 => "April"
+      case 5 => "May"
+      case 6 => "June"
+      case 7 => "July"
+      case 8 => "August"
+      case 9 => "September"
+      case 10 => "October"
+      case 11 => "November"
+      case 12 => "December"
+      case _ => "Invalid month"
+    }
+    println(monthName)
+  }
+
+  var myMatch = new MatchClass
+  println(myMatch.convertBooleanToStringMessage(true))
+
+}
+
+https://docs.scala-lang.org/overviews/scala-book/match-expressions.html
+
+
+
+
+classes and objects:
+
+scala class:
+
+Greeting.scala
+package com.mycom.oo
+
+class Greeting {
+  var message = "Hello"
+}
+package com.mycom.oo
+
+object GreetingMain {
+  def main(args: Array[String]): Unit = {
+    val greeting = new Greeting();
+    println(greeting.message)
+    greeting.message = "Welcome";
+    println(greeting.message)
+
+  }
+}
+
+Default scope in scala is public.
+
+val and var on object ref and instance variables
+................................................
+
+The way you make members public in Scala is by not explicitly specifying
+any access modifier. Put another way, where you’d say “public” in Java,
+you simply say nothing in Scala. Public is Scala’s default access level.
+
+
+package com.mycom.oo
+
+class Greeting {
+  var message = "Hello"
+  val name = "Subramanian";
+}
+
+
+package com.mycom.oo
+
+object GreetingMain {
+  def main(args: Array[String]): Unit = {
+    val greeting = new Greeting();
+    println(greeting.message)
+    greeting.message = "Welcome";
+    println(greeting.message)
+    //greeting.name ="ram"
+
+    val greeting1 = new Greeting()
+
+    //greeting1 = new Greeting()
+
+  }
+}
+.............................................................................................
+				 Methods declaration
+...............................................................................................
+def foo(bar: Baz): Bin = {expr }
+
+“def” starts a function definition.
+"foo" function/method name 
+"bar:Baz" function arg
+"Bin"  return type
+"{expr}" method body
+
+package com.mycom.oo
+
+class Calculator {
+
+  //method with default args
+  //  def add(a: Int = 0, b: Int = 0): Int = {
+  //    return a + b
+  //  }
+  //only body we can ommit {}
+  //  def add(a: Int = 0, b: Int = 0): Int = return a + b
+
+  //we can ommit even return keyword
+  //  def add(a: Int = 0, b: Int = 0): Int = a + b
+  def add(a: Int = 0, b: Int = 0): Int = return a + b
+
+  //if method does not return any thing
+  //not recommened
+  //def calc()= println("calculator");
+
+  //Unit which eq to void
+  def calc(): Unit = println("calculator");
+}
+
+package com.mycom.oo
+
+object CalculatorMain {
+  def main(args: Array[String]): Unit = {
+    val  calculator = new Calculator
+    println(calculator.add(12,20))
+    calculator.calc()
+  }
+}
+...............
+........................................................................................
+
+Scala can allow us to create more instances
+
+package com.mycom.oo
+
+object CalculatorMain {
+  def main(args: Array[String]): Unit = {
+    var  calculator = new Calculator
+    println(calculator.add(12,20))
+    calculator.calc()
+    println(s"hashcode ${calculator.hashCode()}")
+
+    calculator = new Calculator
+    calculator.calc()
+    println(s"hashcode ${calculator.hashCode()}")
+
+  }
+}
+
+what if i want to allow to create only one instance : "Single Ton".
+
+In scala Single object can be created by using "object declaration instead of class".
+
+
+package com.mycom.oo
+
+object FactoryInstance {
+  def sayHello(): Unit = println("single ton")
+}
+package com.mycom.oo
+
+object SingleTonMain {
+  def main(args: Array[String]): Unit = {
+   // FactorInstance.sayHello()
+   // FactorInstance myinstance =new FactorInstance()
+    FactoryInstance.sayHello()
+  }
+}
+
+static variables and methods:
+ Scala does not support static keyword ,instead you have to use object, which is implicit static.
+
+Think: why main method is marked object, because main method is static.
+
+...........................................................................................
+File names and class Names:
+
+in Scala, you can name
+.scala files anything you want, no matter what Scala classes or code you
+put in them. In general in the case of non-scripts, however, it is recommended
+style to name files after the classes they contain as is done in Java.
+
+foo.scala
+
+class Bar {} //valid
+
+but recommended
+
+Bar.scala
+class Bar {}
+
+..............................................................................
+constructors:
+package com.mycom.oo
+
+package com.mycom.oo
+
+class Person(firstName: String = "foo", lastName: String = "bar") {
+  override def toString: String = this.firstName
+}
+
+object ConstructorMain {
+  def main(args: Array[String]): Unit = {
+    //default constructor
+    var person = new Person;
+    println(person.toString)
+    //two arg constructors
+    person = new Person("Subramanian", "Murugan");
+    println(person.toString)
+    //single arg constructors
+    person = new Person("Subramanian")
+    println(person.toString)
+
+  }
+}
+
+if you want  to generate setters and getters
+
+you have to add either val or var 
+
+class Person(var firstName: String = "foo", var lastName: String = "bar") {
+  override def toString: String = this.firstName
+}
+object ConstructorMain {
+  def main(args: Array[String]): Unit = {
+    //default constructor
+    var person = new Person;
+    person.firstName="test"
+    println(person.toString)
+    print(person.firstName)
+    //two arg constructors
+    person = new Person("Subramanian", "Murugan");
+    println(person.toString)
+    //single arg constructors
+    person = new Person("Subramanian")
+    println(person.toString)
+
+  }
+}
+
+......
+constructor code:
+
+//code inside constructors
+class Person(var firstName: String="", var lastName: String="") {
+
+  //class body becomes constructor body so we can call things directly
+  println("the constructor begins")
+
+  // 'public' access by default
+  var age = 0
+
+  // some class fields
+  private val HOME = System.getProperty("user.home")
+
+  // some methods
+  override def toString(): String = s"$firstName $lastName is $age years old"
+
+  def printHome(): Unit = println(s"HOME = $HOME")
+  def printFullName(): Unit = println(this)
+
+  printHome()
+  printFullName()
+  println("you've reached the end of the constructor")
+
+}
+object ConstructorMain {
+  def main(args: Array[String]): Unit = {
+    //default constructor
+    var person = new Person;
+    person.firstName="test"
+    println(person.toString)
+    print(person.firstName)
+    //two arg constructors
+    person = new Person("Subramanian", "Murugan");
+    println(person.toString)
+    //single arg constructors
+    person = new Person("Subramanian")
+    println(person.toString)
+
+  }
+}
+............................................................................................
+
+Types of constructors:
+
+Primary constructors
+AUXILIARY CLASS CONSTRUCTORS
+You define auxiliary Scala class constructors by defining methods that are named this. There are only a few rules to know:
+
+Each auxiliary constructor must have a different signature (different parameter lists)
+Each constructor must call one of the previously defined constructors
+
+
+class Pizza (var crustSize: Int, var crustType: String) {
+  // one-arg auxiliary constructor
+  def this(crustSize: Int) = {
+    this(crustSize, "Thin")
+  }
+  override def toString = s"A $crustSize inch pizza with a $crustType crust"
+
+}
+
+   object ConstructorMain {
+  def main(args: Array[String]): Unit = {
+    //default constructor
+       val DefaultCrustSize = 12
+    val DefaultCrustType = "THIN"
+
+    val p1 = new Pizza(DefaultCrustSize, DefaultCrustType)
+    println(p1.toString)
+    val p2 = new Pizza(DefaultCrustSize)
+    println(p2.toString)
+
+
+  }
+}
+
+Named parameters:
+
+class Socket(var timeout: Int, var linger: Int) {
+  override def toString = s"timeout: $timeout, linger: $linger"
+}
+ var s = new Socket(timeout = 2000, linger = 3000)
+    println(s)
+    s = new Socket(linger = 5000, timeout = 9000)
+    println(s)
+..............................................................................................
+
+case Expression:
+
+Match expression inside methods
+class MatchClass {
+  //methods
+  //  def convertBooleanToStringMessage(bool: Boolean): String = {
+  //    if (bool) "true" else "false"
+  //  }
+  def convertBooleanToStringMessage(bool: Boolean): String = bool match {
+    case true => "you said true"
+    case false => "you said false"
+  }
+}
+
+Matching on case classes
+
+..........................................................................................
+
+Traits:
+
+Traits are a fundamental unit of code reuse in Scala. A trait encapsulates
+method and field definitions, which can then be reused by mixing them into
+classes. Unlike class inheritance, in which each class must inherit from just
+one superclass, a class can mix in any number of traits.
+
+A trait definition looks just like a class definition except that it uses the keyword
+trait.
+
+Simple trait:
+trait Flyable {
+  def fly(): String;
+}
+
+
+class Flight extends Flyable {
+  override def fly(): String = "Flight is flying"
+}
+
+object MainTraits {
+  def main(args: Array[String]): Unit = {
+    var flyable = new Flight();
+    println(flyable.fly())
+
+    val flyBehaviour:Flyable = new Flight
+    println(flyBehaviour.fly())
+  }
+.....................
+
+Multiple traits
+trait Flyable {
+  def fly(): String;
+}
+
+trait Landable {
+  def land(): String;
+}
+trait TakeOff {
+  def takeOff(): String;
+}
+
+class Flight extends Flyable with Landable  with TakeOff {
+  override def fly(): String = "Flight is flying"
+
+  override def takeOff(): String = "Flight takes Off"
+
+  override def land(): String = "Flight is landing"
+}
+
+
+object MainTraits {
+  def main(args: Array[String]): Unit = {
+    var flight = new Flight();
+    println(flight.fly(), flight.land(),flight.takeOff())
+
+   
+  }
+}
+................
+USING SCALA TRAITS LIKE ABSTRACT CLASSES
+
+trait Pet {
+  def speak = println("Yo") // concrete implementation of a speak method
+  def comeToMaster(): Unit // abstract
+}
+
+class Dog extends Pet {
+  override def comeToMaster(): Unit = "Come on"
+}
+
+object MainTraits {
+  def main(args: Array[String]): Unit = {
+    def pet = new Dog
+    println(pet.comeToMaster());
+    pet.speak
+  }
+}
+...................................................................................
+				Runtime Inheritance: BindingMixing traits in on the fly
+
+trait Pet {
+  def speak = println("Yo") // concrete implementation of a speak method
+
+  def comeToMaster(): Unit // abstract
+}
+class Cat(var name: String = "John") 
+
+
+object MainTraits {
+  def main(args: Array[String]): Unit = {
+
+    def cat = new Cat("puppy") with Pet {
+      override def comeToMaster(): Unit = println("hey please come here")
+    }
+    println(cat.name)
+    cat.speak
+    cat.comeToMaster()
+  }
+}
+..........................................................................................
+
+// this won’t compile
+trait Animal(name: String)
+
+
+Abstract classes:
+ Like java classes.
+
+Therefore, you need to use an abstract class whenever a base behavior must have constructor parameters:
+
+abstract class Pet(name: String) {
+  def speak: Unit = println(s"My name is $name")
+  //non abstracts
+  def takeCare(): Unit = {
+    println("Take Care Pets")
+  }
+}
+
+class Dog(name: String) extends Pet(name)
+
+object AbstractClassesDemo {
+  def main(args: Array[String]): Unit = {
+    var dog = new Dog("Fido")
+    dog.speak
+    dog.takeCare
+  }
+}
+
+}
+...........................................................................................
+
+Advanced Match:
+..............
+Another Scala feature that provides support for functional programming is the case class
+A case class has all of the functionality of a regular class, and more.
+When the compiler sees the case keyword in front of a class, it generates code for you, with the following benefits:
+
+Case class constructor parameters are public val fields by default, so accessor methods are generated for each parameter.
+
+An apply method is created in the companion object of the class, so you don’t need to use the new keyword to create a new instance of the class.
+
+An unapply method is generated, which lets you use case classes in more ways in match expressions.
+
+A copy method is generated in the class. You may not use this feature in Scala/OOP code, but it’s used all the time in Scala/FP.
+
+equals and hashCode methods are generated, which let you compare objects and easily use them as keys in maps.
+A default toString method is generated, which is helpful for debugging.
+
+
+//default to val
+	
+
+object CaseMain {
+  def main(args: Array[String]): Unit = {
+    var person = Person.apply("Subramanian", "Father")
+//    person.name = "new"
+    println(person.toString)
+  }
+}
+............
+
+match Expression with case classes
+trait Person {
+  def name: String
+}
+
+case class Student(name: String, year: Int) extends Person
+
+case class Teacher(name: String, specialty: String) extends Person
+
+class CasePrinter {
+  def getPrintableString(p: Person): String = p match {
+    case Student(name, year) =>
+      s"$name is a student in Year $year."
+    case Teacher(name, whatTheyTeach) =>
+      s"$name teaches $whatTheyTeach."
+  }
+}
+
+object CaseMain {
+  def main(args: Array[String]): Unit = {
+    //    var person = Person.apply("Subramanian", "Father")
+    ////    person.name = "new"
+    //    println(person.toString)
+    var printer = new CasePrinter;
+    var result = "";
+    result = printer.getPrintableString(new Student("Subramanian", year = 3));
+    println(result)
+    result = printer.getPrintableString(new Teacher("Subramanian", "Microservices"))
+    println(result)
+
+  }
+}
+
+clone:
+case class BaseballTeam(name: String, lastWorldSeriesWin: Int)
+val cubs1908 = BaseballTeam("Chicago Cubs", 1908)
+println(cubs1908.name, cubs1908.lastWorldSeriesWin)
+val cubs2016 = cubs1908.copy(lastWorldSeriesWin = 2016)
+println(cubs2016.name, cubs2016.lastWorldSeriesWin)
+.....
+
+Null, null, Nil, Nothing, None, and Unit in Scala
+....................................................
+
+Null– Its a Trait.
+null– Its an instance of Null- Similar to Java null.
+
+Nil– Represents an emptry List of anything of zero length. Its not that it refers to nothing but it refers to List which has no contents.
+
+Nothing is a Trait. Its a subtype of everything. But not superclass of anything. There are no instances of Nothing.
+
+None– Used to represent a sensible return value. Just to avoid null pointer exception. Option has exactly 2 subclasses- Some and None. None signifies no result from the method.
+
+Unit– Type of method that doesn’t return a value of anys sort.
+
+...............................
+				Functional Programming
+
+
+Functional programming is a style of programming that emphasizes writing applications using only pure functions and immutable values.
+ it can be helpful to say that functional programmers have an extremely strong desire to see their code as math
+
+How to declare function?
+def keyword: “def” keyword is used to declare a function in Scala.
+
+function_name: It should be valid name in lower camel case. Function name in Scala can have characters like +, ~, &, –, ++, \, / etc.
+
+parameter_list: In Scala, comma-separated list of the input parameters are defined, preceded with their data type, within the enclosed parenthesis.
+
+return_type: User must mention return type of parameters while defining function and return type of a function is optional. If you don’t specify any return type of a function, default return type is Unit which is equivalent to void in Java.
+
+= : In Scala, a user can create function with or without = (equal) operator. If the user uses it, the function will return the desired value. If he doesn’t use it, the function will not return any value and will work like a subroutine.
+
+Method body: Method body is enclosed between braces { }. The code you need to be executed to perform your intended operations.
+
+...................................
+
+
+how to declare function?
+package com.mycom.functions;
+
+object FunctionsMain {
+  def main(args: Array[String]): Unit = {
+      sayHello()
+  }
+
+  //functions
+  def sayHello(): Unit = {
+    print("Hello Function")
+  }
+}
+
+Function with args and returns , default values:
+package com.mycom.functions;
+
+object FunctionsMain {
+  def main(args: Array[String]): Unit = {
+    println(add(12, 34));
+    println(add());
+
+  }
+  //functions with arg
+  def add(a: Int = 0, b: Int = 0): Int = {
+    return a + b;
+  }
+}
+
+......................
+
+Function literals , anonmous functions:
+.......................................
+Anonymous functions are also known as lambdas.
+
+
+    //anonmous functions
+    var hai = () => {
+      println("Hai")
+    }
+    hai()
+
+    var greet = () => println("Greet")
+    greet()
+
+    //multiply
+    var multiply = (a: Int, b: Int) => {
+       println("*********")
+        a * b
+    }
+    println("Multiply" + multiply(10,10));
+    multiply = (a: Int, b: Int) => a * b 
+    println("Multiply" + multiply(10,10));
+
+
+var myfun1 = () => {"Welcome to Scala...!!"}
+    println(myfun1())
+
+    var myfc1 = (str1:String, str2:String) => str1 + str2
+    println(myfc1("Subramanian","Murugan"))
+    /**
+     *  // An anonymous function is created
+        // using _ wildcard instead of
+        // variable name because str1 and
+        // str2 variable appear only once
+        var myfc2 = (_:String) + (_:String)
+
+     */
+    var myfc2 = (_:String) + (_:String)
+    println(myfc2("Subramanian","Murugan"))
+    var userDir = () => { System.getProperty("user.dir") }
+    println(userDir())
+
+...
+
+Closure
+
+A closure is a function, whose return value depends on the value of one or more variables declared outside this function.
+
+The following piece of code with anonymous function.
+
+val multiplier = (i:Int) => i * 10
+Here the only variable used in the function body, i * 10 , is i, which is defined as a parameter to the function. Try the following code −
+
+val multiplier = (i:Int) => i * factor
+There are two free variables in multiplier: i and factor. One of them, i, is a formal parameter to the function. Hence, it is bound to a new value each time multiplier is called. However, factor is not a formal parameter, then what is this? Let us add one more line of code.
+
+var factor = 3
+val multiplier = (i:Int) => i * factor
+Now factor has a reference to a variable outside the function but in the enclosing scope. The function references factor and reads its current value each time. If a function has no external references, then it is trivially closed over itself. No external context is required.
+
+package com.mycom.functions
+
+object ClosureMain {
+  def main(args: Array[String]): Unit = {
+    
+    var factor = 3
+    val multiplier = (i:Int) => i * factor
+
+    println(multiplier.apply(10))
+    println(multiplier(222))
+  }
+}
+...............................
+
+Scala Higher order functions:
+Higher order functions take other functions as parameters or return a function as a result
+his is possible because functions are first-class values in Scala
+
+
+Passing function as parameter:
+    var myconnector = () => {
+      println("Hello")
+    }
+    connect(myconnector)
+
+  def connect(myFun: () => Unit): Unit = {
+    myFun();
+  }
+
+package com.mycom.functions
+
+object HigherOrderFunctions {
+  def main(args: Array[String]): Unit = {
+    var myconnector = () => {
+      println("Hello")
+    }
+    sayGreet(myconnector)
+    var sayMyName = (name: String, msg: String) => println(name + msg)
+    sayHai(sayMyName);
+    sayHai((name: String, msg: String) => println(name + msg))
+  }
+
+  def sayGreet(action: () => Unit) {
+    //invoke function
+    action();
+  }
+
+  def sayHai(action: (String, String) => Unit) {
+    //invoke function
+    action("Hello", "Hai");
+  }
+}
+...........................
+
+object HigherOrderFunction {
+  def main(args: Array[String]): Unit = {
+    sayHello(() => println("Hello"));
+    adder((a, b) => println(a + b));
+    login(resolve => print(resolve), reject => print(reject));
+  }
+
+  def login(success: (String) => Unit, reject: (String) => Unit): Unit = {
+    var name = "admin"
+    if (name.equals("admin")) {
+      success("Success")
+    } else {
+      reject("Failed")
+    }
+
+  }
+
+  def sayHello(myFun: () => Unit): Unit = {
+    myFun()
+  }
+
+  def adder(myFun: (Int, Int) => Unit): Unit = {
+    myFun(10, 10);
+  }
+}
+..........................................................................................
+How to return function from another function/method
+package com.mycom.fp
+
+object ReturningFunctions {
+  def main(args: Array[String]): Unit = {
+    def fun = myFunction();
+    fun()
+    println(getName()("Subramanian", "Murugan"))
+  }
+
+  def myFunction(): () => Unit = {
+    () => println("How to Ruturn function")
+  }
+
+  def getName(): (String, String) => String = {
+    (firstName: String, lastName: String) => s"${firstName} ${lastName}"
+  }
+}
+.........................................................................................
+
+Curry:
+Currying is the process of converting a function with multiple arguments into a sequence of functions that take one argument. Each function returns another function that consumes the following argument.
+
+function which returns another function
+
+
+use case : function which takes more than one parameter
+
+methods version
+  def sum(x: Int, y: Int): Int = x + y
+  print(sum(10, 10))
+
+ curry version
+  def sum(x: Int)(y: Int): Int = x + y
+  var res = sum(1)(2)
+
+lambda version
+val sum: (Int, Int) => Int = (x, y) => x + y 
+val curriedSum: Int => Int => Int = x => y => x + y
+curriedSum(1)(2) shouldBe 3
+
+Using curry method
+val sum: (Int, Int) => Int = (x, y) => x + y
+val curriedSum: Int => Int => Int = sum.curried
+curriedSum(1)(2) shouldBe 3
+
+ATM example:
+  object CurryFunctions {
+  def main(args: Array[String]): Unit = {
+    var res = atm("7777")(9078)(1000)
+    println(res)
+  }
+
+  def atm(cardIn: String)(pin: Int)(amt: Double) = s"${cardIn} ${pin} ${amt}"
+}
+
+Partial application:
+
+Partial application is the process of reducing the number of arguments by applying some of them when the method or function is created. 
+
+methods:
+  def curriedSum(x: Int)(y: Int): Int = x + y
+  val increment: Int => Int = curriedSum(1)
+    println (increment(3))
+
+
+  val curriedSum: Int => Int => Int = x => y => x + y
+  val increment: Int => Int = curriedSum(1)
+
+    println(increment(3))
+
+.............
+
+No Null values:
+	Functional programming is like writing a series of algebraic equations, and because you don’t use null values in algebra, you don’t use null values in FP. That brings up an interesting question: In the situations where you might normally use a null value in Java/OOP code, what do you do?
+
+Scala’s solution is to use constructs like the Option/Some/None classes. 
+
+package com.mycom.functions
+
+object NullValueHandler {
+  def main(args: Array[String]): Unit = {
+     println(toInt("1a0  "));
+  }
+
+  def toInt(str: String): Int = {
+    try {
+      Integer.parseInt(str.trim)
+    } catch {
+      case e: Exception => 0
+    }
+  }
+}
+
+Using SOME/NONE/VALUE
+
+package com.mycom.functions
+
+object NullValueHandler {
+  def main(args: Array[String]): Unit = {
+    println(toInt("10  ").getOrElse(0));
+    println(toInt("10xx  ").getOrElse(0));
+    println(toInt("10xx  ").orNull);
+
+  }
+
+  def toInt(s: String): Option[Int] = {
+    try {
+      Some(Integer.parseInt(s.trim))
+    } catch {
+      case e: Exception => None
+    }
+  }
+}
+
+..
+
+match, for...yield expression:
+
+package com.mycom.functions
+
+object NullValueHandler {
+  def main(args: Array[String]): Unit = {
+    println(toInt("10  ").getOrElse(0));
+    println(toInt("10xx  ").getOrElse(0));
+    println(toInt("10xx  ").orNull);
+    //handling value using match expression
+    toInt("10") match {
+      case Some(i) => println(i)
+      case None => println("That didn't work.")
+    }
+    toInt("10xxx") match {
+      case Some(i) => println(i)
+      case None => println("That didn't work.")
+    }
+    //for...yield expression
+    val y = for {
+      a <- toInt("10")
+      b <- toInt("20")
+      c <- toInt("80")
+    } yield a + b + c
+    println(y.getOrElse(0))
+    y.foreach(println)
+  }
+   def toInt(s: String): Option[Int] = {
+    try {
+      Some(Integer.parseInt(s.trim))
+    } catch {
+      case e: Exception => None
+    }
+  }
+}
+........................................................................................
+
+Null values Handler:
+
+class Address(
+               var street1: String,
+               var street2: String,
+               var city: String,
+               var state: String,
+               var zip: String
+             )
+
+    val santa = new Address(
+      "1 Main Street",
+      null, // instead of null values, replace None
+      "North Pole",
+      "Alaska",
+      "99705"
+    )
+
+output:
+null
+or 
+NullPointerExcetion 
+
+How to avoid nullpointer exception
+
+
+class Address (
+                var street1: String,
+                var street2: Option[String],
+                var city: String,
+                var state: String,
+                var zip: String
+              )
+
+    val santa = new Address(
+      "1 Main Street",
+      None, // instead of null values, replace None
+      "North Pole",
+      "Alaska",
+      "99705"
+    )
+    println("Street" + santa.street2) //None
+
+
+val santa = new Address(
+  "123 Main Street",
+  Some("Apt. 2B"),
+  "Talkeetna",
+  "Alaska",
+  "99676"
+)
+........................
+
+Option isn’t the only solution
+Functional programmers don’t use null values
+A main replacement for null values is to use the Option/Some/None classes
+Common ways to work with Option values are match and for expressions
+Options can be thought of as containers of one item (Some) and no items (None)
+You can also use Options when defining constructor parameters
+............................................
+
+

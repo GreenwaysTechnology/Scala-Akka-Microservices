@@ -1,0 +1,136 @@
+Play:
+
+Play’s lightweight, stateless, web-friendly architecture uses Akka and Akka Streams under the covers to provide predictable and minimal resource consumption (CPU, memory, threads).
+Thanks to its reactive model, applications scale naturally–both horizontally and vertically.
+
+Play is non-opinionated about database access, and integrates with many object relational mapping (ORM) layers. It supports Anorm, Slick, and JPA out of the box.
+
+Play Requirements
+Java versions SE 8 through SE 11, inclusive
+sbt - we recommend the latest version
+
+How to create new Play Application?
+  Play expects a specific project structure. If you already have sbt installed, you can use a giter8 template, similar to a Maven archetype, to create a new Play project. This gives you the advantage of setting up your project folders, build structure, and development environment — all with one command. 
+
+sbt new playframework/play-scala-seed.g8
+
+Test Run application:
+E:\session\incedoinc\playdemos\myapps\my-play>sbt run
+[info] [launcher] getting org.scala-sbt sbt 1.5.2  (this may take some time)...
+[info] [launcher] getting Scala 2.12.13 (for sbt)...
+[info] welcome to sbt 1.5.2 (Oracle Corporation Java 11.0.11)
+[info] loading global plugins from C:\Users\sasub\.sbt\1.0\plugins
+[info] loading settings for project my-play-build from plugins.sbt ...
+[info] loading project definition from E:\session\incedoinc\playdemos\myapps\my-play\project
+[info] loading settings for project root from build.sbt ...
+[info]   __              __
+[info]   \ \     ____   / /____ _ __  __
+[info]    \ \   / __ \ / // __ `// / / /
+[info]    / /  / /_/ // // /_/ // /_/ /
+[info]   /_/  / .___//_/ \__,_/ \__, /
+[info]       /_/               /____/
+[info]
+[info] Version 2.8.13 running Java 11.0.11
+[info]
+[info] Play is run entirely by the community. If you want to keep using it please consider donating:
+[info] https://www.playframework.com/sponsors
+[info]
+
+--- (Running the application, auto-reloading is enabled) ---
+
+[info] p.c.s.AkkaHttpServer - Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+(Server started, use Enter to stop and go back to the console...)
+
+[info] compiling 7 Scala sources and 1 Java source to E:\session\incedoinc\playdemos\myapps\my-play\target\scala-2.13\classes ...
+[info] Non-compiled module 'compiler-bridge_2.13' for Scala 2.13.8. Compiling...
+[info]   Compilation completed in 7.14s.
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/C:/Users/sasub/AppData/Local/Coursier/Cache/v1/https/repo1.maven.org/maven2/com/google/inject/guice/4.2.3/guice-4.2.3.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+2022-02-25 11:48:44 INFO  play.api.http.EnabledFilters  Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+
+    play.filters.csrf.CSRFFilter
+    play.filters.headers.SecurityHeadersFilter
+    play.filters.hosts.AllowedHostsFilter
+
+2022-02-25 11:48:44 INFO  play.api.Play  Application started (Dev) (no global state)
+
+Application Structure:
+app                      → Application sources
+ └ assets                → Compiled asset sources
+    └ stylesheets        → Typically LESS CSS sources
+    └ javascripts        → Typically CoffeeScript sources
+ └ controllers           → Application controllers
+ └ models                → Application business layer
+ └ views                 → Templates
+build.sbt                → Application build script
+conf                     → Configurations files and other non-compiled resources (on classpath)
+ └ application.conf      → Main configuration file
+ └ routes                → Routes definition
+dist                     → Arbitrary files to be included in your projects distribution
+public                   → Public assets
+ └ stylesheets           → CSS files
+ └ javascripts           → Javascript files
+ └ images                → Image files
+project                  → sbt configuration files
+ └ build.properties      → Marker for sbt project
+ └ plugins.sbt           → sbt plugins including the declaration for Play itself
+lib                      → Unmanaged libraries dependencies
+logs                     → Logs folder
+ └ application.log       → Default log file
+target                   → Generated stuff
+ └ resolution-cache      → Info about dependencies
+ └ scala-2.13
+    └ api                → Generated API docs
+    └ classes            → Compiled class files
+    └ routes             → Sources generated from routes
+    └ twirl              → Sources generated from templates
+ └ universal             → Application packaging
+ └ web                   → Compiled web assets
+test                     → source folder for unit or functional tests
+
+
+The app/ directory
+The app directory contains all executable artifacts: Java and Scala source code, templates and compiled assets’ sources.
+
+There are three packages in the app directory, one for each component of the MVC architectural pattern:
+
+app/controllers
+app/models
+app/views
+
+You can add your own packages, for example, an app/services package.
+
+The conf/ directory
+The conf directory contains the application’s configuration files. There are two main configuration files:
+
+application.conf is the main configuration file for the application
+routes is the routers’ definition file.
+If you need to add configuration options that are specific to your application, it’s a good idea to add more options to the application.conf file.
+*******************************************************************************************
+
+Using Play Console:
+
+Single commands
+$ sbt run
+
+Interactive mode
+my-first-app $  sbt
+
+https://www.playframework.com/documentation/2.8.x/PlayConsole
+
+*******************************************************************************************
+
+
+
+
+
+
+
+
+
+
+

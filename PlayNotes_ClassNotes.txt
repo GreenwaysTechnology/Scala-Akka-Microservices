@@ -1,0 +1,511 @@
+				Play 
+..............................................................................................
+
+What is Play?
+
+   Play’s lightweight, stateless, web-friendly architecture uses Akka and Akka Streams under the covers to provide predictable and minimal resource consumption (CPU, memory, threads).
+Thanks to its reactive model, applications scale naturally–both horizontally and vertically.
+
+  Play is web framework runs on jvm , can be written using java and scala.
+
+  Play is MVC framwork by default -  Model view controller - The most popular design pattern used for building web applications.
+
+  Play is non-opinionated about database access, and integrates with many object relational mapping (ORM) layers
+
+Play architecture:
+
+ Play application
+    The application is which is written and deployed on Play container
+    Play application is scala or java application 
+ Play container
+     It is run time where play applications are hosted
+  Akka container
+  or netty container
+  Akka container is one of the akka module called akka http.
+ 
+Play Requirements:
+
+=>Java versions SE 8 through SE 11, inclusive
+=>sbt - we recommend the latest version
+
+
+How to create new Play Application?
+   Play expects a specific project structure. If you already have sbt installed, you can use a giter8 template, similar to a Maven archetype, to create a new Play project. This gives you the advantage of setting up your project folders, build structure, and development environment — all with one command. 
+
+sbt new playframework/play-scala-seed.g8
+
+E:\session\incedoinc\myplaydemos\myapp>sbt run
+[info] welcome to sbt 1.6.2 (Oracle Corporation Java 11.0.11)
+[info] loading global plugins from C:\Users\sasub\.sbt\1.0\plugins
+[info] loading settings for project myapp-build from plugins.sbt ...
+[info] loading project definition from E:\session\incedoinc\myplaydemos\myapp\project
+[info] loading settings for project root from build.sbt ...
+[info]   __              __
+[info]   \ \     ____   / /____ _ __  __
+[info]    \ \   / __ \ / // __ `// / / /
+[info]    / /  / /_/ // // /_/ // /_/ /
+[info]   /_/  / .___//_/ \__,_/ \__, /
+[info]       /_/               /____/
+[info]
+[info] Version 2.8.13 running Java 11.0.11
+[info]
+[info] Play is run entirely by the community. If you want to keep using it please consider donating:
+[info] https://www.playframework.com/sponsors
+[info]
+
+--- (Running the application, auto-reloading is enabled) ---
+
+[info] p.c.s.AkkaHttpServer - Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+(Server started, use Enter to stop and go back to the console...)
+
+[info] compiling 7 Scala sources and 1 Java source to E:\session\incedoinc\myplaydemos\myapp\target\scala-2.13\classes ...
+[info] Non-compiled module 'compiler-bridge_2.13' for Scala 2.13.8. Compiling...
+[info]   Compilation completed in 8.021s.
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/C:/Users/sasub/AppData/Local/Coursier/Cache/v1/https/repo1.maven.org/maven2/com/google/inject/guice/4.2.3/guice-4.2.3.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+2022-03-05 10:37:59 INFO  play.api.http.EnabledFilters  Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+
+    play.filters.csrf.CSRFFilter
+    play.filters.headers.SecurityHeadersFilter
+    play.filters.hosts.AllowedHostsFilter
+
+2022-03-05 10:37:59 INFO  play.api.Play  Application started (Dev) (no global state)
+
+
+Testing :
+
+Open web browser 
+
+http://localhost:9000
+............................................................................................
+
+Play application Structure and architecture:
+...........................................
+
+
+Application Structure:
+app                      → Application sources
+ └ assets                → Compiled asset sources
+    └ stylesheets        → Typically LESS CSS sources
+    └ javascripts        → Typically CoffeeScript sources
+ └ controllers           → Application controllers
+ └ models                → Application business layer
+ └ views                 → Templates
+build.sbt                → Application build script
+conf                     → Configurations files and other non-compiled resources (on classpath)
+ └ application.conf      → Main configuration file
+ └ routes                → Routes definition
+dist                     → Arbitrary files to be included in your projects distribution
+public                   → Public assets
+ └ stylesheets           → CSS files
+ └ javascripts           → Javascript files
+ └ images                → Image files
+project                  → sbt configuration files
+ └ build.properties      → Marker for sbt project
+ └ plugins.sbt           → sbt plugins including the declaration for Play itself
+lib                      → Unmanaged libraries dependencies
+logs                     → Logs folder
+ └ application.log       → Default log file
+target                   → Generated stuff
+ └ resolution-cache      → Info about dependencies
+ └ scala-2.13
+    └ api                → Generated API docs
+    └ classes            → Compiled class files
+    └ routes             → Sources generated from routes
+    └ twirl              → Sources generated from templates
+ └ universal             → Application packaging
+ └ web                   → Compiled web assets
+test                     → source folder for unit or functional tests
+
+
+
+The app/ directory
+  The app directory contains all executable artifacts: Java and Scala source code, templates and compiled assets’ sources.
+
+There are three packages in the app directory, one for each component of the MVC architectural pattern .
+  Views 
+  Controllers
+  Models
+
+app/controllers
+app/views
+app/models
+
+by default the template project provides only two folders controllers and views.
+sometimes we dont use views , controllers are mandatory.
+
+we can have other folders as well.
+
+app/services
+app/repositories
+app/utils
+app/assets - for compiled files like LESS/SASS files, typescript,coffescript- dynamic files
+
+
+public/ dir:
+  Resources stored in the public directory are static assets that are served directly by the Webserver.
+ public/images - image files for app
+ public/javascript - javascript files for an application
+ public/stylesheets- style sheets.
+
+
+conf dir:
+........
+ This directory contains gobal application configuration
+
+conf/application.conf
+conf/routes -  router defintion file.
+
+
+application.conf
+  The configuration file used by Play is based on the Typesafe config library.
+https://lightbend.github.io/config/
+
+The configuration file of a Play application must be defined in conf/application.conf. It uses the HOCON format
+
+user {
+  name = "foo"
+  city = "bar"
+}
+
+conf/routes
+  where we are going to define the router defintions
+
+target dir
+   going to have all compiled files  such build jars to be deployed on container.
+
+............................................................................................
+                                Play console
+
+sbt console:
+
+  You can manage the complete development cycle of a Play application with sbt.
+
+sbt has an interactive mode (shell), or you can enter commands one at a time.
+
+ The interactive mode can be faster over time because sbt only needs to start once. When you enter commands one at a time, sbt restarts each time you run it.
+
+>sbt
+[info] welcome to sbt 1.6.2 (Oracle Corporation Java 11.0.11)
+[info] loading global plugins from C:\Users\sasub\.sbt\1.0\plugins
+[info] loading settings for project myapp-build from plugins.sbt ...
+[info] loading project definition from E:\session\incedoinc\myplaydemos\myapp\project
+[info] loading settings for project root from build.sbt ...
+[info]   __              __
+[info]   \ \     ____   / /____ _ __  __
+[info]    \ \   / __ \ / // __ `// / / /
+[info]    / /  / /_/ // // /_/ // /_/ /
+[info]   /_/  / .___//_/ \__,_/ \__, /
+[info]       /_/               /____/
+[info]
+[info] Version 2.8.13 running Java 11.0.11
+[info]
+[info] Play is run entirely by the community. If you want to keep using it please consider donating:
+[info] https://www.playframework.com/sponsors
+[info]
+[info] sbt server started at local:sbt-server-3ebc9c3717d18aec2167
+[info] started sbt server
+[myapp] $
+
+How to run app on default port?
+[myapp] $ run
+
+--- (Running the application, auto-reloading is enabled) ---
+
+[info] p.c.s.AkkaHttpServer - Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+(Server started, use Enter to stop and go back to the console...)
+
+How to change the port no from the default port?
+
+[myapp] $ run 3000
+
+--- (Running the application, auto-reloading is enabled) ---
+
+[info] p.c.s.AkkaHttpServer - Listening for HTTP on /0:0:0:0:0:0:0:0:3000
+
+(Server started, use Enter to stop and go back to the console...)
+..............................................................................................	
+				Hot Reloading feature
+.............................................................................................
+
+Play framework has built in hot reloading feature, means that, if you change the source code, you dont need to manually restart the server, rather we can just save and see the result.
+
+.............................................................................................
+Core concepts of Play framework:
+
+1.Controllers
+
+2.Views
+
+3.Actions
+
+4.Routes
+
+What is Controller?
+  Controller  is just  class.
+
+class  HomeController {
+
+}
+Since it is simple scala class, it cant handle http requests and it cant process http responses.
+
+In order to make HTTP AWARE class, we need to inherit the class  called Abstract Controller
+
+class  HomeController  extends AbstractController{
+
+}
+
+abstract class AbstractController extends BaseController
+ An abstract implementation of BaseController to make it slightly easier to use.
+
+
+class  HomeController  extends BaseController {
+
+}
+
+Every controller has a dependency called "ControllerComponents"
+  The base controller components dependencies that most controllers rely on.
+Which provides core utility functionality for a an controller
+
+like : body parsing,mime type utilties,language utilites,message api utilities
+
+if you want to access utitles inside controller we need to use dependency injections.
+
+@inject - jsr 330 , dependency injection annotation used to inject java/scala objects into another java/scala objects
+
+Types of di:
+
+1.constructor injection : injecting object via constructor
+2.setter injection : injecting object via setters
+
+class  HomeController @Inject() (ctrlCmp:ControllerComponents)  extends BaseController {
+
+}
+
+
+Controllers are going to have methods , We call as "actions".
+
+
+Actions:
+  Actions are objects which are going to handle client requests.
+  Action Objects are created based on "higher order function".
+
+higher order function (Constructor function)
+
+play.api.mvc.Action
+
+Syntax of Action
+
+Calling constructor:
+
+Higher order constructor:  contructor takes another function as parameter
+ new Action({somevariable=> })
+ Action({somevariable=>}) 
+
+declarative /dsl style
+
+ Action {somevariable
+   //return something
+ }
+............................................................................................
+
+Action arg function's arg and return type:
+.
+
+ Action {request:play.api.mvc.Request=>
+   //return something
+ }
+
+Here Action takes request object as parameter and has to return response.
+
+Return value: Response
+
+ Action { request:play.api.mvc.Request=>
+    Ok("Hello") //response
+ }
+
+Response Type
+play.api.mvc.Result
+
+..............................................................................................
+Action syntax:
+
+Action {
+  OK("HELLO")
+}
+Action {request=>
+  OK("HELLO")
+}
+
+Action {implicit request=>
+  someApi("somevalue")
+  OK("HELLO")
+}
+//here we can access both request and also strings
+def someApi(value:String)(implicit req:Request)={
+
+}
+
+class SomeApi {
+
+ def add(x:Int,implicit y:Int){
+
+ }
+
+}
+implicit val j:Int =90
+
+add(10,10)
+
+add(10)
+
+Body Parsers:
+  Plugin or program which converts incoming or outgoing data/content into specific format
+like json,xml,pdf,word,video.....
+
+Action can take body parser recommendations
+
+Action (parse.json) { request=>
+  Ok("hello")
+}
+
+According to actions , controllers are just action generators, who generates actions.
+
+Controllers must have method which should return Action Object.
+
+@Singleton()
+class HelloWorldController @Inject()(override val controllerComponents: ControllerComponents) extends BaseController {
+  // methods which handles client request and send response
+  def sayHello = Action { request =>
+    Ok("Hello Play")
+  }
+}
+
+Request Mapping/ URL Mapping:
+
+How to map url with actions of an controller.
+.............................................................................................
+                                   Routing
+
+
+The Play provide centeralized url matcher called Routing Component(Routing Object) , Routing configuration.
+
+Routing Configuration has two parts
+
+1.URI  /hello /api/customers  /api/customers/:id , api/customers?city=foo
+
+2.HTTP METHOD - GET,POST,PUT,DELETE,TRACE...
+
+For given URI and http method , which controller need to be mapped and inside controller which method(action) to be called.
+
+conf/routes
+
+syntax:
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+package controllers
+
+import play.api.mvc.{BaseController, ControllerComponents}
+
+import javax.inject.{Inject, Singleton}
+
+@Singleton()
+class HelloWorldController @Inject()(override val controllerComponents: ControllerComponents) extends BaseController {
+  // methods which handles client request and send response
+  def sayHello = Action { request =>
+    Ok("Hello Play")
+    //    mvc.Result(
+    //      header=ResponseHeader(200,Map.empty),
+    //      body=HttpEntity.Strict(ByteString("Hello"),Some("text/plain")))
+  }
+
+  def save = Action { request =>
+    println(request.body)
+    Ok(request.body.asText.getOrElse("no body"))
+  }
+
+  def getName(name: String) = Action { request =>
+    Ok("Hello " + name)
+  }
+  //sending different values
+  
+}
+//
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index()
+
+# Hello Controller showing hello message
+
+GET    /hello                        controllers.HelloWorldController.sayHello()
+POST   /hello/save                   controllers.HelloWorldController.save()
+# Path parameter/ dynamic routing
+GET    /hello/:whom                  controllers.HelloWorldController.getName(whom:String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+...........................................................................................
+			   How to send different types of content
+...........................................................................................
+
+def streamedWithContentLength = Action {
+  val file                          = new java.io.File("/tmp/fileToServe.pdf")
+  val path: java.nio.file.Path      = file.toPath
+  val source: Source[ByteString, _] = FileIO.fromPath(path)
+
+  val contentLength = Some(Files.size(file.toPath))
+
+  Result(
+    header = ResponseHeader(200, Map.empty),
+    body = HttpEntity.Streamed(source, contentLength, Some("application/pdf"))
+  )
+}
+.............................................................................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
